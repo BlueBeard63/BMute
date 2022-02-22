@@ -40,6 +40,11 @@ namespace B.MedicalSystem.Commands
                     try
                     {
                         var uPlayer = caller as UnturnedPlayer;
+                        if (Main.Instance.DownedPlayers.ContainsKey(uPlayer.CSteamID))
+                        {
+                            Main.Instance.DownedPlayers.Remove(uPlayer.CSteamID);
+                            return;
+                        }
                         Main.Instance.DownedSimulation.DownedSim(uPlayer, 9);
                     }
                     catch (Exception ex)
