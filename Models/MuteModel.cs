@@ -28,6 +28,10 @@ namespace B.Mute.Models
             MuteCreated = Main.Instance.Configuration.Instance.UseUTC ? DateTime.UtcNow : DateTime.Now;
         }
 
+        public MuteModel()
+        {
+        }
+
         public bool IsExpired
         {
             get

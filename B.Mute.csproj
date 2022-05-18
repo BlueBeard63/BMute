@@ -122,6 +122,7 @@
     <Compile Include="Database\DatabaseExtension.cs" />
     <Compile Include="Database\DatabaseManager.cs" />
     <Compile Include="Database\DatabaseQuery.cs" />
+    <Compile Include="Helper\CommandsHelper.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Models\MuteModel.cs" />
     <Compile Include="Patches\PlayerVoicePatch.cs" />
