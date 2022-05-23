@@ -58,6 +58,9 @@
     <Reference Include="MySql.Data, Version=8.0.29.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <HintPath>packages\MySql.Data.8.0.29\lib\net452\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="Renci.SshNet">
       <HintPath>..\Plugins\libs\Renci.SshNet.dll</HintPath>
     </Reference>
@@ -123,7 +126,9 @@
     <Compile Include="Database\DatabaseManager.cs" />
     <Compile Include="Database\DatabaseQuery.cs" />
     <Compile Include="Helper\CommandsHelper.cs" />
+    <Compile Include="Helper\DiscordMessager.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Models\Webhook.cs" />
     <Compile Include="Models\MuteModel.cs" />
     <Compile Include="Patches\PlayerVoicePatch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

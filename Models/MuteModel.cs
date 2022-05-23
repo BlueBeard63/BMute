@@ -12,20 +12,24 @@ namespace B.Mute.Models
 
 
         public int MuteID { get; set; }
+        public string PlayerName { get; set; }
         public ulong PlayerID { get; set; }
+        public string PunisherName { get; set; }
         public ulong PunisherID { get; set; }
         public string Reason { get; set; }
         public int? Length { get; set; }
         public DateTime MuteCreated { get; set; }
         public bool IsMuted { get; set; }
 
-        public MuteModel(ulong player, ulong punisher, string reason, int? length)
+        public MuteModel(ulong player, ulong punisherId, string reason, int? length, string punisherName = null, string playerName = null)
         {
             PlayerID = player;
-            PunisherID = punisher;
+            PunisherID = punisherId;
             Reason = reason;
             Length = length;
             MuteCreated = Main.Instance.Configuration.Instance.UseUTC ? DateTime.UtcNow : DateTime.Now;
+            PunisherName = punisherName == null ? "System" : punisherName;
+            PlayerName = playerName == null ? "Unknown" : playerName;
         }
 
         public MuteModel()

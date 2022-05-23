@@ -58,11 +58,15 @@ namespace B.Mute.Commands
             }
 
             mute.PunisherID = caller is ConsolePlayer ? 0 : ulong.Parse(caller.Id);
+            mute.PunisherName = caller is ConsolePlayer ? null : UnturnedPlayer.FromCSteamID(new Steamworks.CSteamID(ulong.Parse(caller.Id))).DisplayName;
+            mute.PlayerName = target == null ? null : target.DisplayName;
             mute.Reason = args.ElementAtOrDefault(1);
             mute.Length = CommandsHelper.ConvertToBanDuration(args.Skip(2));
             mute.MuteCreated = pluginInstance.Configuration.Instance.UseUTC ? DateTime.UtcNow : DateTime.Now;
 
-            if(pluginInstance.Configuration.Instance.RequireReason && mute.Reason == null)
+            MuteModel newMute = new MuteModel(mute.PlayerID, mute.PunisherID, mute.Reason, mute.Length, mute.PunisherName, mute.PlayerName);
+
+            if (pluginInstance.Configuration.Instance.RequireReason && mute.Reason == null)
             {
                 UnturnedChat.Say(caller, pluginInstance.Translate("RequireReason"), Color.red);
                 return;
@@ -70,7 +74,8 @@ namespace B.Mute.Commands
 
             try
             {
-                pluginInstance.Manager.InsertMute(mute);
+                Main.Instance.Messager.SendMessage(Main.Instance.Translate("MuteAnnouncement", mute.PlayerName, mute.PunisherName, mute.ReasonString, mute.DurationString), EMessageType.Mute);
+                pluginInstance.Manager.InsertMute(newMute);
             }
             catch(Exception ex)
             {

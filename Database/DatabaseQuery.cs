@@ -11,7 +11,9 @@ namespace B.Mute.Database
         public const string MuteTable = @"
 CREATE TABLE IF NOT EXISTS Mutes (
     MuteID INT NOT NULL AUTO_INCREMENT,
+    PlayerName VARCHAR(255) NOT NULL,
     PlayerID BIGINT NOT NULL,
+    PunisherName VARCHAR(255) NULL DEAFULT `System`,
     PunisherID BIGINT NOT NULL DEFAULT 0,
     Reason VARCHAR(255) NULL,
     Length INT(11) NULL,
@@ -20,5 +22,6 @@ CREATE TABLE IF NOT EXISTS Mutes (
     CONSTRAINT PK_Mutes PRIMARY KEY (MuteID)
 );
         ";
+
     }
 }
