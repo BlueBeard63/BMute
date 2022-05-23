@@ -1,4 +1,5 @@
 ﻿using B.Mute.Database;
+using Rocket.API.Collections;
 using Rocket.Core.Plugins;
 using Rocket.Unturned;
 using Rocket.Unturned.Events;
@@ -20,6 +21,15 @@ namespace B.Mute
         public static Main Instance { get; private set; }
         public DatabaseManager Manager { get; private set; }
 
+        public override TranslationList DefaultTranslations => new TranslationList
+        {
+            { "DurationPermanent", "permanent" },
+            { "RequireReason", "You must specify a reason!" },
+            { "MuteInvalid", "Invalid usage, use: /mute <name/steamid> [reason] [duration]" },
+            { "ReasonUnkown", "unknown" },
+            { "TargetPlayerNotFound", "Player not found" }
+        };
+
         protected override void Load()
         {
             Instance = this;
@@ -30,6 +40,7 @@ namespace B.Mute
         protected override void Unload()
         {
             Instance = null;
+            Manager = null;
         }
     }
 }
