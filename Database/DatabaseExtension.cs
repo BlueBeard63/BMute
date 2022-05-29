@@ -12,8 +12,8 @@ namespace B.Mute.Database
     {
         public static void InsertMute(this DatabaseManager database, MuteModel mute)
         {
-            string sql = "INSERT INTO Mutes (PlayerID, PunisherID, Reason, Length, MuteCreated) " +
-                "VALUES (@PlayerID, @PunisherID, @Reason, @Length, @MuteCreated);";
+            string sql = "INSERT INTO Mutes (PlayerName, PlayerID, PunisherName, PunisherID, Reason, Length, MuteCreated) " +
+                "VALUES (@PlayerName, @PlayerID, @PunisherName, @PunisherID, @Reason, @Length, @MuteCreated);";
 
             using (var conn = database.Connection)
             {
@@ -23,21 +23,25 @@ namespace B.Mute.Database
 
         public static List<MuteModel> GetAllMutes(this DatabaseManager database)
         {
-            string sql = "SELECT m.MuteID, m.PlayerID, m.PunisherID, m.Reason, m.Length, m.MuteCreated, m.IsMuted FROM Mutes AS m;";
+            string sql = "SELECT * FROM Mutes;";
+            List<MuteModel> list = null;
+
 
             using(var conn = database.Connection)
             {
-                return conn.Query<MuteModel>(sql).ToList();
+                list = conn.Query<MuteModel>(sql).ToList();
             }
+
+            return list;
         }
 
         public static void SetFlag(this DatabaseManager database, int muteid)
         {
-            string sql = "UPDATE Mutes SET IsMuted = true WHERE MuteID = @Muteid;";
+            string sql = "UPDATE Mutes SET SendFlag = true WHERE MuteID = @Mute;";
 
             using(var conn = database.Connection)
             {
-                conn.Execute(sql, new { Muteid = muteid });
+                conn.Execute(sql, new { Mute = muteid });
             }
         }
     }

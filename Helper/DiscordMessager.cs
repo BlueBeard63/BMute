@@ -55,12 +55,9 @@ namespace B.Mute.Helper
                         .Replace("{name}", args[0])
                         .Replace("{steamid}", args[1])
                         .Replace("{punisher}", args[2])
-                        .Replace("{servername}", SDG.Unturned.Provider.serverName);
-
-                    if (messageType != EMessageType.Mute)
-                        value = value.Replace("{reason}", args[3]);
-                    if (messageType == EMessageType.UnMute)
-                        value = value.Replace("{duration}", args[4]);
+                        .Replace("{servername}", SDG.Unturned.Provider.serverName)
+                        .Replace("{reason}", args[3])
+                        .Replace("{duration}", args[4]);
 
                     fields.Add(new Field(arr[0], value, true));
                     num += 2;
@@ -129,6 +126,6 @@ namespace B.Mute.Helper
     public enum EMessageType
     {
         Mute,
-        UnMute
+        Unmute
     }
 }

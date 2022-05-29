@@ -19,17 +19,15 @@ namespace B.Mute.Models
         public string Reason { get; set; }
         public int? Length { get; set; }
         public DateTime MuteCreated { get; set; }
-        public bool IsMuted { get; set; }
+        public bool SendFlag { get; set; }
 
-        public MuteModel(ulong player, ulong punisherId, string reason, int? length, string punisherName = null, string playerName = null)
+        public MuteModel(ulong player, ulong punisherId, string reason, int? length)
         {
             PlayerID = player;
             PunisherID = punisherId;
             Reason = reason;
             Length = length;
             MuteCreated = Main.Instance.Configuration.Instance.UseUTC ? DateTime.UtcNow : DateTime.Now;
-            PunisherName = punisherName == null ? "System" : punisherName;
-            PlayerName = playerName == null ? "Unknown" : playerName;
         }
 
         public MuteModel()

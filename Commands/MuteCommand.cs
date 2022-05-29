@@ -4,6 +4,7 @@ using B.Mute.Models;
 using Rocket.API;
 using Rocket.Unturned.Chat;
 using Rocket.Unturned.Player;
+using SDG.Unturned;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -58,13 +59,11 @@ namespace B.Mute.Commands
             }
 
             mute.PunisherID = caller is ConsolePlayer ? 0 : ulong.Parse(caller.Id);
-            mute.PunisherName = caller is ConsolePlayer ? null : UnturnedPlayer.FromCSteamID(new Steamworks.CSteamID(ulong.Parse(caller.Id))).DisplayName;
-            mute.PlayerName = target == null ? null : target.DisplayName;
+            mute.PunisherName = caller is ConsolePlayer ? "System" : UnturnedPlayer.FromCSteamID(new Steamworks.CSteamID(ulong.Parse(caller.Id))).DisplayName;
+            mute.PlayerName = target == null ? "Unknown" : target.DisplayName;
             mute.Reason = args.ElementAtOrDefault(1);
             mute.Length = CommandsHelper.ConvertToBanDuration(args.Skip(2));
             mute.MuteCreated = pluginInstance.Configuration.Instance.UseUTC ? DateTime.UtcNow : DateTime.Now;
-
-            MuteModel newMute = new MuteModel(mute.PlayerID, mute.PunisherID, mute.Reason, mute.Length, mute.PunisherName, mute.PlayerName);
 
             if (pluginInstance.Configuration.Instance.RequireReason && mute.Reason == null)
             {
@@ -74,8 +73,9 @@ namespace B.Mute.Commands
 
             try
             {
-                Main.Instance.Messager.SendMessage(Main.Instance.Translate("MuteAnnouncement", mute.PlayerName, mute.PunisherName, mute.ReasonString, mute.DurationString), EMessageType.Mute);
-                pluginInstance.Manager.InsertMute(newMute);
+                ChatManager.serverSendMessage(Main.Instance.Translate("MuteAnnouncement", mute.PlayerName, mute.PunisherName, mute.ReasonString, mute.DurationString), Color.green, null, null, EChatMode.GLOBAL, null, true);
+                Main.Instance.Messager.SendMessage(EMessageType.Mute, mute.PlayerName, mute.PlayerID.ToString(), mute.PunisherName, mute.ReasonString, mute.DurationString);
+                pluginInstance.Manager.InsertMute(mute);
             }
             catch(Exception ex)
             {
