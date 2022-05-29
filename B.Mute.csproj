@@ -121,6 +121,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\MuteCommand.cs" />
+    <Compile Include="Commands\UnMuteCommand.cs" />
     <Compile Include="Configuration.cs" />
     <Compile Include="Database\DatabaseExtension.cs" />
     <Compile Include="Database\DatabaseManager.cs" />

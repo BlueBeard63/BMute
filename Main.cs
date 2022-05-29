@@ -38,7 +38,9 @@ namespace B.Mute
             { "TargetPlayerNotFound", "Player not found" },
             { "UnMuteAnnouncement", "{0} was unmuted!" },
             { "MuteAnnouncement", "{0} was muted by {1} for {2} for {3}!" },
-            { "MutedMessage", "{0} you cannot speak as you are muted!"}
+            { "UnMuteFail", "{0} doesn't have any active mute." },
+            { "MutedMessage", "{0} you cannot speak as you are muted!"},
+            { "TargetPlayerNotFound", "Player not found" }
         };
 
         protected override void Load()
@@ -62,11 +64,14 @@ namespace B.Mute
 
         private bool OnVoiceChat(PlayerVoice speaker, PlayerVoice listener)
         {
-            var player = UnturnedPlayer.FromPlayer(speaker.player);
-            if (Manager.GetAllMutes().Where(x => !x.SendFlag && x.Length != null).Any(x => x.PlayerID == player.CSteamID.m_SteamID))
+            if (Configuration.Instance.MuteVoice)
             {
-                UnturnedChat.Say(player, Translate("MutedMessage", player.DisplayName));
-                return false;
+                var player = UnturnedPlayer.FromPlayer(speaker.player);
+                if (Manager.GetAllMutes().Where(x => !x.SendFlag && x.Length != null).Any(x => x.PlayerID == player.CSteamID.m_SteamID))
+                {
+                    UnturnedChat.Say(player, Translate("MutedMessage", player.DisplayName));
+                    return false;
+                }
             }
             return true;
         }
