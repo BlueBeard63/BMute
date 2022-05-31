@@ -35,23 +35,23 @@ namespace B.Mute.Database
             return list;
         }
 
-        public static MuteModel GetMute(this DatabaseManager database, ulong steamid)
+        public static List<MuteModel> GetMute(this DatabaseManager database, ulong steamid)
         {
             string sql = "SELECT * FROM Mutes WHERE PlayerID = @player;";
 
             using(var conn = database.Connection)
             {
-                return (MuteModel)conn.Query<MuteModel>(sql, new { player = steamid });
+                return conn.Query<MuteModel>(sql, new { player = steamid }).ToList();
             }
         }
 
-        public static MuteModel GetMute(this DatabaseManager database, int muteid)
+        public static List<MuteModel> GetMute(this DatabaseManager database, int muteid)
         {
             string sql = "SELECT * FROM Mutes WHERE MuteID = @mute;";
 
             using (var conn = database.Connection)
             {
-                return (MuteModel)conn.Query<MuteModel>(sql, new { mute = muteid });
+                return conn.Query<MuteModel>(sql, new { mute = muteid }).ToList();
             }
         }
 

@@ -73,7 +73,18 @@ namespace B.Mute.Commands
 
             try
             {
-                ChatManager.serverSendMessage(Main.Instance.Translate("MuteAnnouncement", mute.PlayerName, mute.PunisherName, mute.ReasonString, mute.DurationString), Color.green, null, null, EChatMode.GLOBAL, null, true);
+                if (pluginInstance.Configuration.Instance.BroadcastMuteAndUnMute)
+                {
+                    ChatManager.serverSendMessage(Main.Instance.Translate("MuteAnnouncement", mute.PlayerName, mute.PunisherName, mute.ReasonString, mute.DurationString), Color.green, null, null, EChatMode.GLOBAL, null, true);
+                }
+                else
+                {
+                    UnturnedChat.Say(caller, Main.Instance.Translate("MuteAnnouncement", mute.PlayerName, mute.PunisherName, mute.ReasonString, mute.DurationString));
+                    if(target != null)
+                    {
+                        UnturnedChat.Say(target, Main.Instance.Translate("MuteAnnouncement", mute.PlayerName, mute.PunisherName, mute.ReasonString, mute.DurationString));
+                    }
+                }
                 Main.Instance.Messager.SendMessage(EMessageType.Mute, mute.PlayerName, mute.PlayerID.ToString(), mute.PunisherName, mute.ReasonString, mute.DurationString);
                 pluginInstance.Manager.InsertMute(mute);
             }

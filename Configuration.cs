@@ -17,6 +17,7 @@ namespace B.Mute
         public bool UseUTC { get; set; }
         public bool RequireReason { get; set; }
         public bool MuteVoice { get; set; }
+        public bool BroadcastMuteAndUnMute { get; set; }
 
         public void LoadDefaults()
         {
@@ -30,6 +31,7 @@ namespace B.Mute
             UseUTC = false;
             RequireReason = false;
             MuteVoice = false;
+            BroadcastMuteAndUnMute = true;
         }
     }
 }

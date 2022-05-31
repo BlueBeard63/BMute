@@ -40,7 +40,8 @@ namespace B.Mute
             { "MuteAnnouncement", "{0} was muted by {1} for {2} for {3}!" },
             { "UnMuteFail", "{0} doesn't have any active mute." },
             { "MutedMessage", "{0} you cannot speak as you are muted!"},
-            { "TargetPlayerNotFound", "Player not found" }
+            { "TargetPlayerNotFound", "Player not found" },
+            { "UnMuteInvalid", "Invalid usage, use: /unmute <name/steamid>" },
         };
 
         protected override void Load()
@@ -74,14 +75,19 @@ namespace B.Mute
                 }
             }
             return true;
+
+            
         }
 
         private void OnChat(UnturnedPlayer player, ref Color color, string message, EChatMode chatMode, ref bool cancel)
         {
             if(Manager.GetAllMutes().Where(x => !x.SendFlag && x.Length != null).Any(x => x.PlayerID == player.CSteamID.m_SteamID))
             {
-                cancel = true;
-                UnturnedChat.Say(player, Translate("MutedMessage", player.DisplayName));
+                if (!message.StartsWith("/"))
+                {
+                    cancel = true;
+                    UnturnedChat.Say(player, Translate("MutedMessage", player.DisplayName));
+                }
             }
         }
 

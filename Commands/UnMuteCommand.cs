@@ -50,7 +50,7 @@ namespace B.Mute.Commands
 
             try
             {
-                MuteModel mute = pluginInstance.Manager.GetMute(target.CSteamID.m_SteamID);
+                MuteModel mute = pluginInstance.Manager.GetMute(target.CSteamID.m_SteamID).FirstOrDefault(x => x.SendFlag == false);
 
                 string message;
 
@@ -72,7 +72,18 @@ namespace B.Mute.Commands
 
                 TaskDispatcher.QueueOnMainThread(() =>
                 {
-                    UnturnedChat.Say(caller, message);
+                    if (pluginInstance.Configuration.Instance.BroadcastMuteAndUnMute)
+                    {
+                        UnturnedChat.Say(message);
+                    }
+                    else
+                    {
+                        UnturnedChat.Say(caller, message);
+                        if(target != null)
+                        {
+                            UnturnedChat.Say(target, message);
+                        }
+                    }
                 });
             }
             catch(Exception ex)
